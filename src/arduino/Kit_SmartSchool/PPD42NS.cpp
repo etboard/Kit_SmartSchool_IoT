@@ -1,3 +1,12 @@
+/******************************************************************************************
+ * FileName     : PPD42NS.cpp 
+ * Description  : PPD42NS 미세 센서
+ * Author       : SCS
+ * Created Date : 2024.07.21
+ * Reference    : 
+ * Modified     : 
+ * Modified     : 
+******************************************************************************************/
 #include "PPD42NS.h"
 
 PPD42NS::PPD42NS(int sensorPin, unsigned long sampleTime) : 
@@ -19,7 +28,7 @@ void PPD42NS::update() {
 
   if ((millis() - starttime) > sampletime_ms) {
     calculate();
-    printResults();
+    //printResults();
     reset();
   }
 }
@@ -44,3 +53,7 @@ void PPD42NS::reset() {
   lowpulseoccupancy = 0;
   starttime = millis();
 }
+
+//==========================================================================================
+// End of Line
+//==========================================================================================

@@ -4,7 +4,7 @@
  * Author       : SCS
  * Created Date : 2022.08.06
  * Reference    :
- * Modified     :
+ * Modified     : 2024.07.21 : SCS : publish_tele & doc 추가
  * Modified     :
 ******************************************************************************************/
 
@@ -39,6 +39,14 @@ ETBOARD_SIMPLE_MQTT::ETBOARD_SIMPLE_MQTT()
   mqtt_simple_tele = "tele";
   mqtt_simple_stat = "stat";
   mac_address = "";
+  doc = new DynamicJsonDocument(256);
+}
+
+//=================================================================================
+ETBOARD_SIMPLE_MQTT::~ETBOARD_SIMPLE_MQTT() 
+//=================================================================================
+{
+    delete doc;  // 소멸자에서 메모리 해제
 }
 
 //=================================================================================
@@ -178,6 +186,16 @@ void ETBOARD_SIMPLE_MQTT::publish_tele(const String &topic, const String &payloa
 //=================================================================================
 {
   client.publish(get_tele_prefix() + topic, payload);
+}
+
+//=================================================================================
+void ETBOARD_SIMPLE_MQTT::publish_tele(const String &topic, const DynamicJsonDocument &doc) 
+//=================================================================================
+{
+  String payload;
+  serializeJson(doc, payload);
+  // client.publish(get_tele_prefix() + topic, payload);
+  publish_tele(topic, payload);
 }
 
 //=================================================================================

@@ -4,7 +4,7 @@
  * Author       : SCS
  * Created Date : 2022.08.06
  * Reference    : 
- * Modified     : 
+ * Modified     : 2024.07.21 : SCS : publish_tele & doc 추가
  * Modified     : 
 ******************************************************************************************/
 
@@ -35,8 +35,10 @@ class ETBOARD_SIMPLE_MQTT {
     String mac_address;
     char   ch_client_name[20];
     int current_digital_value[MAX_DIGITAL];
-    
+    DynamicJsonDocument* doc;    
+
   	ETBOARD_SIMPLE_MQTT();
+     ~ETBOARD_SIMPLE_MQTT();
     
     void setup(
       const char* mqttServerIp,
@@ -60,6 +62,7 @@ class ETBOARD_SIMPLE_MQTT {
     void onConnectionEstablished(void);
     void send_test_analog_a0(void);
     void publish_tele(const String &topic, const String &payload);
+    void publish_tele(const String &topic, const DynamicJsonDocument &doc);
     void send_analog(void);
     void send_digital(void);
     void recv_digital(void);

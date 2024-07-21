@@ -1,6 +1,6 @@
 /******************************************************************************************
- * FileName     : PPD42NS.h
- * Description  : PPD42NS 미세 센서
+ * FileName     : MAX9814.cpp 
+ * Description  : MAX9814 사운드 센서
  * Author       : SCS
  * Created Date : 2024.07.21
  * Reference    : 
@@ -8,32 +8,28 @@
  * Modified     : 
 ******************************************************************************************/
 
-#ifndef PPD42NS_H
-#define PPD42NS_H
+#include "MAX9814.h"
 
-#include <Arduino.h>
+MAX9814::MAX9814(int pin) : _pin(pin), _maxSound(0) {}
 
-class PPD42NS {
-private:
-  int pin;
-  unsigned long duration;
-  unsigned long starttime;
-  unsigned long sampletime_ms;
-  unsigned long lowpulseoccupancy;
-  float ugm3;
+void MAX9814::begin() {
+    pinMode(_pin, INPUT);
+}
 
-  void calculate();
-  void printResults();
-  void reset();
+void MAX9814::update() {
+    int soundResult = analogRead(_pin);
+    if (soundResult > _maxSound) {
+        _maxSound = soundResult;
+    }
+}
 
-public:
-  PPD42NS(int sensorPin, unsigned long sampleTime = 30000);
-  void begin();
-  void update();
-  float getUgm3() const;
-};
+void MAX9814::reset() {
+    _maxSound = 0;
+}
 
-#endif
+int MAX9814::getMaxSound() const {
+    return _maxSound;
+}
 
 //==========================================================================================
 // End of Line
