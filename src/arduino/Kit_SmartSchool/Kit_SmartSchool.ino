@@ -23,11 +23,13 @@ APP_CONFIG app;
 #include "DHT.h"                                  // 디지털 온습도 센서
 DHT dht(D9, DHT11);                               // DHT11
 
+
 //==========================================================================================
 // 미세먼지 센서 사용하기
 //==========================================================================================
 #include "PPD42NS.h"                              // 미세먼지 센서 사용
 PPD42NS dustSensor(A4);                           // A4번에 PPD42NS 연결
+
 
 //==========================================================================================
 // 상수 정의                                       
@@ -187,11 +189,11 @@ void display_Information()                        // 센싱 정보 OLED 표시 �
   string_t= String(temperature, 1);               // 온도를 문자열로 변환
   String string_h;
   string_h= String(humidity, 1);                  // 습도를 문자열로 변환
-  String string_a2_t;
-  string_a2_t = String(sensor_result);            // 이티보드 내장 온도 센서 값 문자열로 변환
+  String string_dust = String(dust, 2);           // 미세먼지를 문자열로 변환
+  String string_sound = String(max_sound);        // 사운드를 문자열로 변환
   
   app.oled.setLine(1, board_firmware_verion);     // 1번째 줄에 펌웨어 버전
-  app.oled.setLine(2,"T:" + string_a2_t);         // 2번재 줄에 이티보드 내장 온도
+  app.oled.setLine(2, string_dust + "/" + string_sound); // 2번재 줄에 미세먼지, 사운드
   app.oled.setLine(3, string_t + "/" + string_h); // 3번재 줄에 온도 + 습도
   app.oled.display();                             // OLED에 표시
 }
@@ -202,7 +204,6 @@ void send_sensor_value()
 //==========================================================================================
 {
   DynamicJsonDocument doc(1024);
-  //doc["mac"] = app.mqtt.mac_address.substring(9);
   doc["temperature"] = app.etboard.round2(temperature);
   doc["humidity"] = humidity;
   doc["a2_temperature"] = sensor_result;
