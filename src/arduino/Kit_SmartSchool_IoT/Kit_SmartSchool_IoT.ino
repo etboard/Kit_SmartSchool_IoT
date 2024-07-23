@@ -1,5 +1,5 @@
 /******************************************************************************************
- * FileName     : Kit_SmartSchool.ino
+ * FileName     : Kit_SmartSchool_IoT.ino
  * Description  : 이티보드로 온도/습소/미세먼지/소음을 측정하여 WiFi로 송신
  * Author       : SCS
  * Created Date : 2024.07.11
