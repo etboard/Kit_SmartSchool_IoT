@@ -51,7 +51,7 @@ jobs:
         echo ""        
         echo "echo step3000: copy file "        
         mkdir -p dest/$DEST_PATH
-        cp src/arduino/Kit_SmartSchool_Iot/Kit_SmartSchool_IoT.ET-Board.bin dest/$DEST_PATH
+        cp src/arduino/Kit_SmartSchool_IoT/Kit_SmartSchool_IoT.ET-Board.bin dest/$DEST_PATH
 
         # push
         cd dest
