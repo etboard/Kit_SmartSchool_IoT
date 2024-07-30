@@ -4,7 +4,8 @@
  * Author       : SCS
  * Created Date : 2022.08.06
  * Reference    :
- * Modified     :
+ * Modified     : 2024.07.23 : SCS : 포맷 중 기다리라는 메시지
+ * Modiefied    : 2024.07.30 : SCS : Convert hangul to english for format
  * Modified     :
 ******************************************************************************************/
 
@@ -148,7 +149,10 @@ void ETBOARD_WIFI::load_config()
     }
   } else {
     // 2023.10.05
-    Serial.println("failed to mount FS so formatting...");    
+    Serial.println("failed to mount FS so formatting...");   
+    // 2024.07.23 
+    // 2024.07.30 : SCS : Convert hangul to english for format
+    Serial.println("Initializing FS for 30 seconds. Please wait.");    
     SPIFFS.format();
     ESP.restart();
   }
