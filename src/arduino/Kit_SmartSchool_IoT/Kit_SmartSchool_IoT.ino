@@ -9,11 +9,13 @@
 ******************************************************************************************/
 const char* board_firmware_verion = "sch_iot_0.96";
 
+
 //================================================-=========================================
 // 응용 프로그램 구성 사용하기                       
 //==========================================================================================
 #include "ET_IoT_App.h"
 ET_IoT_App app;
+
 
 //==========================================================================================
 // 온습도 센서 사용하기
@@ -37,7 +39,7 @@ ET_MAX9814 soundSensor(A3);                       // A3번에 센서 연결
 
 
 //==========================================================================================
-void custom_setup()                               // 사용자 맞춤형 설정 함수
+void et_setup()                                   // 설정
 //==========================================================================================
 {
   dhtSensor.begin();                          
@@ -47,7 +49,7 @@ void custom_setup()                               // 사용자 맞춤형 설정 
 
 
 //==========================================================================================
-void custom_loop()                                // 사용자 반복 처리
+void et_loop()                                    // 반복
 //==========================================================================================
 {
   do_sensing_process();                           // 센싱 처리
@@ -55,7 +57,7 @@ void custom_loop()                                // 사용자 반복 처리
 
 
 //==========================================================================================
-void do_sensing_process()                         // 센싱 처리 함수
+void do_sensing_process()                         // 센싱 처리
 //==========================================================================================
 { 
   dhtSensor.update();                             // 온습도 센서 업데이트
@@ -65,7 +67,7 @@ void do_sensing_process()                         // 센싱 처리 함수
 
 
 //==========================================================================================
-void custom_short_periodic_process()              // 사용자 주기적 처리 (예 : 1초마다)
+void et_short_periodic_process()                  // 사용자 주기적 처리 (예 : 1초마다)
 //==========================================================================================
 {   
   display_information();                          // 표시 처리
@@ -73,7 +75,7 @@ void custom_short_periodic_process()              // 사용자 주기적 처리 
 
 
 //==========================================================================================
-void custom_long_periodic_process()               // 사용자 주기적 처리 (예 : 5초마다)
+void et_long_periodic_process()                   // 사용자 주기적 처리 (예 : 5초마다)
 //==========================================================================================
 { 
   send_message();                                 // 메시지 송신
@@ -90,10 +92,10 @@ void display_information()                        // 센싱 정보 OLED 표시 �
   String string_dust = String(dustSensor.getUgm3(), 2);        // 미세먼지를 문자열로 변환
   String string_sound = String(soundSensor.getMaxSound());     // 사운드를 문자열로 변환
   
-  app.oled.setLine(1, board_firmware_verion);            // 1번째 줄에 펌웨어 버전  
-  app.oled.setLine(2, string_temp + "/" + string_humi);  // 2번재 줄에 온도,  습도
-  app.oled.setLine(3, string_dust + "/" + string_sound); // 3번재 줄에 미세먼지, 사운드
-  app.oled.display();                                    // OLED에 표시
+  app.oled.setLine(1, board_firmware_verion);                  // 1번째 줄에 펌웨어 버전  
+  app.oled.setLine(2, string_temp + "/" + string_humi);        // 2번재 줄에 온도,  습도
+  app.oled.setLine(3, string_dust + "/" + string_sound);       // 3번재 줄에 미세먼지, 사운드
+  app.oled.display();                                          // OLED에 표시
 }
 
 
@@ -101,12 +103,12 @@ void display_information()                        // 센싱 정보 OLED 표시 �
 void send_message()
 //==========================================================================================
 {
-  (*app.mqtt.doc)["temperature"] = app.etboard.round2(dhtSensor.getTemperature());
-  (*app.mqtt.doc)["humidity"]    = app.etboard.round2(dhtSensor.getHumidity());
-  (*app.mqtt.doc)["max_sound"]   = soundSensor.getMaxSound();
-  (*app.mqtt.doc)["dust"]        = dustSensor.getUgm3();
+  app.addSensorData("temperature", dhtSensor.getTemperature());
+  app.addSensorData("humidity",    dhtSensor.getHumidity());
+  app.addSensorData("max_sound",   soundSensor.getMaxSound());
+  app.addSensorData("dust",        dustSensor.getUgm3());
 
-  app.mqtt.publish_tele("/sensor", (*app.mqtt.doc));     // 메시지 송신
+  app.sendSensorData();                           // 메시지 송신
 }
 
 
