@@ -1,2 +1,0 @@
-# Kit_SmartSchool
- 
