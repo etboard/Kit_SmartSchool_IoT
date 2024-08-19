@@ -1,0 +1,10 @@
+/********************************************************************************** 
+ * Author       : 한국공학기술연구원 손철수 
+ * Warning      : 적당히 베끼세요
+ * Date         : 2018.09.30  
+ * Modified     : 2022.10.03 : SCS : support arduino uno with ET-Upboard
+ * Modified     : 2023.10.11 : SCS : decrease memory for arduino
+ * Modified     : 2024.07.11 : SCS : add 5 line, 8 line
+ * Modified     : 2024.07.19 : SCS : add setLine(int line, String buffer)
+ * Modified     : 2024.07.21 : SCS : add two setLine()
+**********************************************************************************/
