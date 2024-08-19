@@ -9,7 +9,6 @@
 from machine import Pin
 from ETboard.lib.pin_define import *              # ETboard 핀 관련 모듈
 
-count = 0
 
 #===========================================================================================
 # IoT 프로그램 사용하기                       
@@ -49,8 +48,7 @@ oled = oled_u8g2()
 #===========================================================================================
 # 응용 프로그램 설정하기(1회만 실행)
 #===========================================================================================
-def et_setup():
-    app.setup_recv_message("none", recv_message)
+def et_setup():    
     dust_sensor.begin()
     
 
@@ -65,8 +63,6 @@ def et_loop():
 # 센싱 처리                     
 #===========================================================================================
 def do_sensing():
-    global count    
-    count = count + 1
     dht_sensor.update()
     dust_sensor.update()
     sound_sensor.update()
@@ -116,14 +112,6 @@ def send_message():
     app.add_sensor_data("dust", dust_sensor.get_ugm3());
     app.add_sensor_data("max_sound", sound_sensor.get_max_sound());
     app.send_sensor_data();
-    print("send_message")
-
-
-#===========================================================================================
-# 메시지 수신
-#===========================================================================================
-def recv_message(cmnd, msg):
-    pass
 
 
 #===========================================================================================
