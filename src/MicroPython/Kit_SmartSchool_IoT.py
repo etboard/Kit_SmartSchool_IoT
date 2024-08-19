@@ -99,7 +99,7 @@ def display_information():
     oled.setLine(3, 'humi: ' + string_humi + '%')               # OLED 모듈 3번 줄에 저장
     oled.setLine(4, 'dust: ' + string_dust )                    # OLED 모듈 4번 줄에 저장
     oled.setLine(5, 'snd : ' + string_snd)                      # OLED 모듈 5번 줄에 저장
-    oled.setLine(6, 'cnt : ' + str(count))  
+    
     oled.display()                                              # 저장된 내용을 oled에 보여줌    
     
 
