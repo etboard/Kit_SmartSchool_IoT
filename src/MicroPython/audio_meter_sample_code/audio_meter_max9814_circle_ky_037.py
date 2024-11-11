@@ -7,9 +7,14 @@
 #              : 네오픽셀 링은 D2에 연결됨 , okok
 #******************************************************************************************
 from ETboard.lib.pin_define import *
-from machine import ADC, Pin
+from machine import ADC, Pin, I2C
 import neopixel
 import time
+import ssd1306
+
+# OLED 설정
+i2c = I2C(scl=Pin(22), sda=Pin(21), freq=400000)
+oled = ssd1306.SSD1306_I2C(128, 64, i2c)
 
 # 센서 및 네오픽셀 설정
 sound_sensor = ADC(Pin(A3))
@@ -91,6 +96,12 @@ def main():
                 
                 # 업데이트 시간 기록
                 last_led_update = current_time
+                
+                # OLED 디스플레이 업데이트
+                oled.fill(0)
+                oled.text("Sound Level:", 0, 0)
+                oled.text(str(current_value), 0, 10)
+                oled.show()    
             
         except Exception as e:
             print(f"Error: {e}")
