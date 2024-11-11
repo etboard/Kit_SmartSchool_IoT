@@ -1,11 +1,3 @@
-#******************************************************************************************
-# FileName     : sound_neopixel.py
-# Description  : KY-037과 네오픽셀 링으로 소리 레벨 표시
-# Author       : 손철수
-# Created Date : 2024.11.11
-# Reference    : KY-037 사운드 센서는 A3에 연결됨
-#              : 네오픽셀 링은 D2에 연결됨 , okok
-#******************************************************************************************
 from ETboard.lib.pin_define import *
 from machine import ADC, Pin, I2C
 import neopixel
@@ -58,6 +50,24 @@ def get_sound_level():
     
     return max_val
 
+def update_leds(current_value):
+    # LED 개수 계산
+    num_leds = (current_value * NUM_PIXELS) // MAX_LEVEL
+    num_leds = min(num_leds, NUM_PIXELS)
+    
+    # LED 업데이트
+    pixels.fill((0, 0, 0))
+    for i in range(num_leds):
+        pixels[i] = LED_COLORS[i]
+    pixels.write()
+
+def update_oled(current_value):
+    # OLED 디스플레이 업데이트
+    oled.fill(0)
+    oled.text("Sound Level:", 0, 0)
+    oled.text(str(current_value), 0, 10)
+    oled.show()
+
 def main():
     current_value = 0
     last_led_update = time.ticks_ms()
@@ -81,27 +91,14 @@ def main():
             
             # LED 업데이트 주기가 되었을 때만 LED 업데이트
             if time.ticks_diff(current_time, last_led_update) >= LED_UPDATE_INTERVAL:
-                # LED 개수 계산
-                num_leds = (current_value * NUM_PIXELS) // MAX_LEVEL
-                num_leds = min(num_leds, NUM_PIXELS)
-                
-                # LED 업데이트
-                pixels.fill((0, 0, 0))
-                for i in range(num_leds):
-                    pixels[i] = LED_COLORS[i]
-                pixels.write()
+                update_leds(current_value)
+                update_oled(current_value)
                 
                 # 값 감소 (더 천천히)
                 current_value = int(current_value * DECAY_RATE)
                 
                 # 업데이트 시간 기록
                 last_led_update = current_time
-                
-                # OLED 디스플레이 업데이트
-                oled.fill(0)
-                oled.text("Sound Level:", 0, 0)
-                oled.text(str(current_value), 0, 10)
-                oled.show()    
             
         except Exception as e:
             print(f"Error: {e}")
@@ -114,9 +111,3 @@ if __name__ == "__main__":
     finally:
         pixels.fill((0, 0, 0))
         pixels.write()
-
-#===========================================================================================
-#                                                    
-# (주)한국공학기술연구원 http://et.ketri.re.kr       
-#
-#===========================================================================================
