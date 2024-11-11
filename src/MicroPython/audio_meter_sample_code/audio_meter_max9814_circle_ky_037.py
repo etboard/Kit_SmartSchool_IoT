@@ -22,8 +22,8 @@ YELLOW = (15, 15, 0)   # 노란색
 RED = (15, 0, 0)       # 빨간색
 
 # 레벨 설정
-THRESHOLD = 1800       # 노이즈 임계값
-MAX_LEVEL = 2600       # 최대 레벨값 증가
+THRESHOLD = 1600       # 노이즈 임계값
+MAX_LEVEL = 2300       # 최대 레벨값 증가
 
 # LED 설정
 DECAY_RATE = 0.85      # 감소율 (0.85 = 85% 유지)
@@ -92,7 +92,7 @@ def main():
             # LED 업데이트 주기가 되었을 때만 LED 업데이트
             if time.ticks_diff(current_time, last_led_update) >= LED_UPDATE_INTERVAL:
                 update_leds(current_value)
-                update_oled(current_value)
+                #update_oled(current_value)
                 
                 # 값 감소 (더 천천히)
                 current_value = int(current_value * DECAY_RATE)
