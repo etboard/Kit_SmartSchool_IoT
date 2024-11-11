@@ -2,11 +2,13 @@ from ETboard.lib.pin_define import *
 from machine import ADC, Pin, I2C
 import neopixel
 import time
-import ssd1306
+#import ssd1306
+from OLED_U8G2 import oled_u8g2
 
 # OLED 설정
-i2c = I2C(scl=Pin(22), sda=Pin(21), freq=400000)
-oled = ssd1306.SSD1306_I2C(128, 64, i2c)
+#i2c = I2C(scl=Pin(22), sda=Pin(21), freq=400000)
+#oled = ssd1306.SSD1306_I2C(128, 64, i2c)
+oled = oled_u8g2()
 
 # 센서 및 네오픽셀 설정
 sound_sensor = ADC(Pin(A3))
@@ -27,7 +29,7 @@ MAX_LEVEL = 2300       # 최대 레벨값 증가
 
 # LED 설정
 DECAY_RATE = 0.85      # 감소율 (0.85 = 85% 유지)
-LED_UPDATE_INTERVAL = 100  # LED 업데이트 주기 (ms)
+LED_UPDATE_INTERVAL = 200  # LED 업데이트 주기 (ms)
 
 # 샘플링 설정
 SAMPLE_WINDOW = 2      # 샘플링 윈도우 (ms)
@@ -63,10 +65,14 @@ def update_leds(current_value):
 
 def update_oled(current_value):
     # OLED 디스플레이 업데이트
-    oled.fill(0)
-    oled.text("Sound Level:", 0, 0)
-    oled.text(str(current_value), 0, 10)
-    oled.show()
+    #oled.fill(0)
+    #oled.text("Sound Level:", 0, 0)
+    #oled.text(str(current_value), 0, 10)
+    #oled.show()
+    oled.clear()
+    oled.setLine(2, str(current_value))
+    oled.display()    
+    
 
 def main():
     current_value = 0
@@ -92,7 +98,7 @@ def main():
             # LED 업데이트 주기가 되었을 때만 LED 업데이트
             if time.ticks_diff(current_time, last_led_update) >= LED_UPDATE_INTERVAL:
                 update_leds(current_value)
-                #update_oled(current_value)
+                update_oled(current_value)
                 
                 # 값 감소 (더 천천히)
                 current_value = int(current_value * DECAY_RATE)
