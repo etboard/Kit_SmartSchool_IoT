@@ -19,12 +19,16 @@ NUM_PIXELS = 12
 pixels = neopixel.NeoPixel(Pin(D2), NUM_PIXELS)
 
 # 색상 정의 (낮은 밝기)
-GREEN = (0, 15, 0)     # 초록색
-YELLOW = (15, 15, 0)   # 노란색
-RED = (15, 0, 0)       # 빨간색
+#GREEN = (0, 15, 0)     # 초록색
+#YELLOW = (15, 15, 0)   # 노란색
+#RED = (15, 0, 0)       # 빨간색
+GREEN = (0, 64, 0)     # 초록색
+YELLOW = (64, 64, 0)   # 노란색
+RED = (64, 0, 0)       # 빨간색
+
 
 # 레벨 설정
-THRESHOLD = 1600       # 노이즈 임계값
+THRESHOLD = 1100       # 노이즈 임계값
 MAX_LEVEL = 2300       # 최대 레벨값 증가
 
 # LED 설정
@@ -32,7 +36,7 @@ DECAY_RATE = 0.85      # 감소율 (0.85 = 85% 유지)
 LED_UPDATE_INTERVAL = 200  # LED 업데이트 주기 (ms)
 
 # 샘플링 설정
-SAMPLE_WINDOW = 2      # 샘플링 윈도우 (ms)
+SAMPLE_WINDOW = 1      # 샘플링 윈도우 (ms)
 
 # LED 색상 배열
 LED_COLORS = [GREEN, GREEN, GREEN, GREEN,     # 4개의 초록색
@@ -64,11 +68,6 @@ def update_leds(current_value):
     pixels.write()
 
 def update_oled(current_value):
-    # OLED 디스플레이 업데이트
-    #oled.fill(0)
-    #oled.text("Sound Level:", 0, 0)
-    #oled.text(str(current_value), 0, 10)
-    #oled.show()
     oled.clear()
     oled.setLine(2, str(current_value))
     oled.display()    
