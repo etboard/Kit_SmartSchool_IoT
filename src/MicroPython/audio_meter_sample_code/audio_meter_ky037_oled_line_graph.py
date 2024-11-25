@@ -13,7 +13,7 @@ import utime
 import math
 
 # ADC 설정 (KY-037 아날로그 출력 핀)
-adc = ADC(Pin(A3))
+adc = ADC(Pin(A6))
 adc.atten(ADC.ATTN_11DB)
 adc.width(ADC.WIDTH_12BIT)
 

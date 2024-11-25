@@ -11,11 +11,11 @@ from OLED_U8G2 import oled_u8g2
 oled = oled_u8g2()
 
 # 센서 및 네오픽셀 설정
-sound_sensor = ADC(Pin(A3))
+sound_sensor = ADC(Pin(A6))
 sound_sensor.atten(ADC.ATTN_11DB)
 sound_sensor.width(ADC.WIDTH_12BIT)
 
-NUM_PIXELS = 12
+NUM_PIXELS = 4
 pixels = neopixel.NeoPixel(Pin(D2), NUM_PIXELS)
 
 # 색상 정의 (낮은 밝기)
@@ -39,9 +39,11 @@ LED_UPDATE_INTERVAL = 200  # LED 업데이트 주기 (ms)
 SAMPLE_WINDOW = 1      # 샘플링 윈도우 (ms)
 
 # LED 색상 배열
-LED_COLORS = [GREEN, GREEN, GREEN, GREEN,     # 4개의 초록색
-              YELLOW, YELLOW, YELLOW, YELLOW,  # 4개의 노란색
-              RED, RED, RED, RED]             # 4개의 빨간색
+#LED_COLORS = [GREEN, GREEN, GREEN, GREEN,     # 4개의 초록색
+#              YELLOW, YELLOW, YELLOW, YELLOW,  # 4개의 노란색
+              #RED, RED, RED, RED]             # 4개의 빨간색
+LED_COLORS = [GREEN, YELLOW, YELLOW,  # 4개의 노란색
+              RED]             # 4개의 빨간색
 
 def get_sound_level():
     # 짧은 시간 동안 최대한 많은 샘플링
