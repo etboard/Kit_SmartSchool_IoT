@@ -14,6 +14,15 @@ import time
 from OLED_U8G2 import oled_u8g2
 from ETboard.lib.servo import Servo
 
+# 레벨 설정
+THRESHOLD = 1100       # 노이즈 임계값
+MAX_LEVEL = 2300       # 최대 레벨값 증가
+
+# 표시 설정
+LED_UPDATE_INTERVAL = 200  # LED 업데이트 주기 (ms)
+DECAY_RATE = 0.85      # 감소율 (0.85 = 85% 유지)
+
+
 # OLED 설정
 oled = oled_u8g2()
 
@@ -30,13 +39,7 @@ GREEN = (0, 64, 0)     # 초록색
 YELLOW = (64, 64, 0)   # 노란색
 RED = (64, 0, 0)       # 빨간색
 
-# 레벨 설정
-THRESHOLD = 1100       # 노이즈 임계값
-MAX_LEVEL = 2300       # 최대 레벨값 증가
 
-# LED 설정
-DECAY_RATE = 0.85      # 감소율 (0.85 = 85% 유지)
-LED_UPDATE_INTERVAL = 200  # LED 업데이트 주기 (ms)
 
 # 샘플링 설정
 SAMPLE_WINDOW = 1      # 샘플링 윈도우 (ms)
@@ -45,7 +48,6 @@ SAMPLE_WINDOW = 1      # 샘플링 윈도우 (ms)
 LED_COLORS = [GREEN, YELLOW, YELLOW, RED]       # 4개의 색
 
 servo = Servo(Pin(D6))                          # 서보모터 핀 지정
-sensor = ADC(Pin(A0))                           # 가변저항 핀 지정
 
 def get_sound_level():
     # 짧은 시간 동안 최대한 많은 샘플링
@@ -108,8 +110,6 @@ def main():
     pixels.fill((0, 0, 0))
     pixels.write()
     
-    sensor.atten(ADC.ATTN_11DB)
-    
     while True:
         try:
             # 샘플링 수행
@@ -155,3 +155,9 @@ if __name__ == "__main__":
     finally:
         pixels.fill((0, 0, 0))
         pixels.write()
+
+#===========================================================================================
+#                                                    
+# (주)한국공학기술연구원 http://et.ketri.re.kr       
+#
+#===========================================================================================
