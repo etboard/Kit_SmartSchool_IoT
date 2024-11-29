@@ -15,10 +15,10 @@ from OLED_U8G2 import oled_u8g2
 from ETboard.lib.servo import Servo
 
 # 레벨 설정
-THRESHOLD = 1100       # 노이즈 임계값
+THRESHOLD = 2000       # 노이즈 임계값
 MAX_LEVEL = 2300       # 최대 레벨값 증가
-THRESHOLD = 100       # 노이즈 임계값
-MAX_LEVEL = 1300       # 최대 레벨값 증가
+THRESHOLD = 1900       # 노이즈 임계값
+MAX_LEVEL = 2100       # 최대 레벨값 증가
 
 # 표시 설정
 UPDATE_INTERVAL = 200  # LED 업데이트 주기 (ms)
@@ -61,7 +61,7 @@ def get_sound_level():
         val = sound_sensor.read()
         if val > max_val:
             max_val = val
-    
+        
     return max_val
 
 def update_leds(current_value):
@@ -144,7 +144,7 @@ def main():
                 # 업데이트 시간 기록
                 last_led_update = current_time
                 
-                time.sleep(0.001)                
+                #time.sleep(0.001)                
             
         except Exception as e:
             print(f"Error: {e}")
